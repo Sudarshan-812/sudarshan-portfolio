@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-// 1. Updated Imports for more accurate icons
 import { Home, User, Layers, Briefcase, Mail } from 'lucide-react';
 
 const DockIcon = ({ mouseX, item, index, setHoveredIndex, hoveredIndex, onClick }) => {
@@ -14,6 +13,7 @@ const DockIcon = ({ mouseX, item, index, setHoveredIndex, hoveredIndex, onClick 
 
     return (
       <div className="relative flex flex-col items-center">
+        {/* Tooltip */}
         <AnimatePresence>
             {hoveredIndex === index && (
                 <motion.div
@@ -21,16 +21,18 @@ const DockIcon = ({ mouseX, item, index, setHoveredIndex, hoveredIndex, onClick 
                     animate={{ opacity: 1, y: -15, scale: 1 }}
                     exit={{ opacity: 0, y: 5, scale: 0.8 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute -top-12 px-3 py-1 bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 rounded-lg text-xs font-medium text-neutral-900 dark:text-white whitespace-nowrap shadow-xl"
+                    className="absolute -top-12 px-3 py-1 bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 rounded-lg text-xs font-medium text-neutral-900 dark:text-white whitespace-nowrap shadow-xl pointer-events-none"
                 >
                     {item.label}
                 </motion.div>
             )}
         </AnimatePresence>
 
+        {/* Icon Button */}
         <motion.button 
             ref={ref}
             onClick={onClick}
+            aria-label={item.label}
             onMouseEnter={() => setHoveredIndex(index)}
             style={{ width, height: width }} 
             className="aspect-square rounded-2xl bg-gray-100/50 dark:bg-white/10 border border-black/5 dark:border-white/20 backdrop-blur-md flex items-center justify-center hover:bg-gray-200/50 dark:hover:bg-white/20 transition-colors"
@@ -47,10 +49,16 @@ const FloatingDock = ({ isVisible }) => {
 
   const handleScroll = (id) => {
     const target = document.querySelector(id);
-    if (target && window.lenis) { window.lenis.scrollTo(target); }
+    if (target) {
+        // Check for Lenis scroll (if installed later) or fallback to native
+        if (window.lenis) {
+            window.lenis.scrollTo(target);
+        } else {
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
+    }
   };
 
-  // 2. Updated Icon Mapping
   const items = [
     { icon: Home, label: "Home", href: "#home" },
     { icon: User, label: "About", href: "#about" },
@@ -97,4 +105,4 @@ const FloatingDock = ({ isVisible }) => {
   );
 };
 
-export default FloatingDock;
+export default FloatingDock;  

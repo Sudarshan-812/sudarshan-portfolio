@@ -8,6 +8,10 @@ import ExpandableProjects from './sections/Projects';
 import Contact from './sections/Contact';
 import FloatingDock from './components/ui/FloatingDock';
 import useSmoothScroll from './hooks/useSmoothScroll';
+import ScrollProgress from './components/ui/ScrollProgress';
+
+
+
 
 const App = () => {
   useSmoothScroll();
@@ -30,7 +34,7 @@ const App = () => {
 
   return (
     <main className="selection:bg-purple-500/30 selection:text-purple-500 pb-20 relative overflow-x-hidden transition-colors duration-500 bg-gray-50 dark:bg-black text-neutral-900 dark:text-white">
-      {/* 2. Pass visibility prop to Navbar */}
+      <ScrollProgress />
       <Navbar isDark={isDark} toggleTheme={toggleTheme} isVisible={!isModalOpen} />
       
       <Hero />

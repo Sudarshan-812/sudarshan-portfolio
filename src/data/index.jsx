@@ -3,8 +3,8 @@ import { Code2, FileText, Monitor, Car, Layout, Terminal } from 'lucide-react';
 // 1. MUST HAVE "export const" HERE
 export const USER_DATA = {
   name: "Sudarshan", 
-  role: "Front-End Developer",
-  subRoles: ["Front-End Developer", "Android Developer", "UI/UX Enthusiast"],
+  role: "Frontend Developer",
+  subRoles: ["Frontend Developer", "Android Developer", "UI/UX Enthusiast"],
   location: "India",
   email: "sudarshan.builds@gmail.com", 
   resumeLink: "#", 

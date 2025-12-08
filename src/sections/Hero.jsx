@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Linkedin, CheckCircle2, Download } from 'lucide-react';
+import { Mail, Linkedin, CheckCircle2, Download, MapPin } from 'lucide-react';
 import { USER_DATA } from '../data';
 import Spotlight from '../components/ui/Spotlight';
 
@@ -15,7 +15,7 @@ const Hero = () => {
       <div className="container mx-auto max-w-6xl relative z-10">
         <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
           
-          {/* 2. LEFT SIDE: The Hero Photo (Dummy Professional Shot) */}
+          {/* 2. LEFT SIDE: The Hero Photo */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9, x: -50 }}
             animate={{ opacity: 1, scale: 1, x: 0 }}
@@ -24,10 +24,10 @@ const Hero = () => {
           >
             <div className="relative w-64 h-64 md:w-[400px] md:h-[400px] rounded-full p-2 border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 shadow-2xl">
               <div className="w-full h-full rounded-full overflow-hidden relative">
-                {/* DUMMY PHOTO HERE - Replace with USER_DATA.avatar when ready */}
+                {/* Replaced with your USER_DATA.avatar if available, else high-quality dummy */}
                 <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop" 
-                  alt="Profile Placeholder" 
+                  src={USER_DATA.avatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"} 
+                  alt={`${USER_DATA.name} Profile`} 
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
                 />
                 {/* Inner Glow */}
@@ -44,11 +44,11 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* Background Blob behind image */}
+            {/* Background Blob */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-purple-500/20 rounded-full blur-[80px] -z-10"></div>
           </motion.div>
 
-          {/* 3. RIGHT SIDE: The High-Signal Text */}
+          {/* 3. RIGHT SIDE: High-Signal Text */}
           <div className="text-center md:text-left flex-1">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -59,15 +59,25 @@ const Hero = () => {
               <h1 className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white mb-4 tracking-tight font-display">
                 {USER_DATA.name} <span className="text-purple-600 dark:text-purple-500">K.</span>
               </h1>
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-500 dark:text-gray-400 mb-8">
+              <h2 className="text-2xl md:text-4xl font-bold text-gray-500 dark:text-gray-400 mb-8" aria-live="polite">
                 Frontend Engineer
               </h2>
 
-              {/* Status Spec */}
-              <div className="mb-10 flex justify-center md:justify-start">
+              {/* Status & Location Stack */}
+              <div className="mb-10 flex flex-col items-center md:items-start gap-4">
+                
+                {/* Immediate Joiner Badge */}
                 <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 font-bold text-lg border border-green-200 dark:border-green-500/20">
                     <CheckCircle2 size={20} />
                     <span>Immediate Joiner</span>
+                </div>
+
+                {/* Location & Relocation Info */}
+                <div className="flex items-center gap-2 text-lg text-gray-600 dark:text-gray-300 font-medium">
+                  <MapPin size={20} className="text-purple-600 dark:text-purple-400" />
+                  <span>Vijayapura</span>
+                  <span className="text-gray-300 dark:text-gray-600">|</span>
+                  <span>Relocating to <span className="text-neutral-900 dark:text-white font-bold">BLR / HYD</span></span>
                 </div>
               </div>
 
@@ -91,11 +101,12 @@ const Hero = () => {
                   LinkedIn
                 </a>
 
-                {/* Optional Resume Button (Smaller) */}
+                {/* Resume Download */}
                  <a 
                   href={USER_DATA.resumeLink}
                   download
                   className="sm:ml-4 text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 font-medium text-sm flex items-center gap-1 transition-colors"
+                  aria-label="Download Resume"
                 >
                   Download CV <Download size={16} />
                 </a>
