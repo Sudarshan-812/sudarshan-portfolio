@@ -24,7 +24,7 @@ const Hero = () => {
           >
             <div className="relative w-64 h-64 md:w-[400px] md:h-[400px] rounded-full p-2 border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 shadow-2xl">
               <div className="w-full h-full rounded-full overflow-hidden relative">
-                {/* DUMMY PHOTO HERE */}
+                {/* DUMMY PHOTO HERE - Replace with USER_DATA.avatar when ready */}
                 <img 
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop" 
                   alt="Profile Placeholder" 
@@ -63,28 +63,12 @@ const Hero = () => {
                 Frontend Engineer
               </h2>
 
-              {/* The "Fact Stack" - Targets & Specs */}
-              <div className="space-y-4 mb-10">
-                <div className="inline-flex flex-col md:flex-row items-center md:items-start gap-2 text-lg md:text-xl font-medium text-neutral-900 dark:text-white">
-                  <span className="text-gray-500">Open to roles at:</span>
-                  <div className="flex flex-wrap justify-center md:justify-start gap-2">
-                    <span className="border-b-2 border-purple-500/30 hover:border-purple-500 transition-colors">PhonePe</span>
-                    <span className="text-gray-300">·</span>
-                    <span className="border-b-2 border-blue-500/30 hover:border-blue-500 transition-colors">Groww</span>
-                    <span className="text-gray-300">·</span>
-                    <span className="border-b-2 border-black/30 dark:border-white/30 hover:border-black dark:hover:border-white transition-colors">CRED</span>
-                  </div>
+              {/* Status Spec */}
+              <div className="mb-10 flex justify-center md:justify-start">
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 font-bold text-lg border border-green-200 dark:border-green-500/20">
+                    <CheckCircle2 size={20} />
+                    <span>Immediate Joiner</span>
                 </div>
-
-                <p className="text-lg md:text-xl font-bold text-neutral-900 dark:text-white flex flex-col md:flex-row items-center gap-2 md:gap-4">
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 size={20} className="text-green-500" /> 18–28 LPA
-                  </span>
-                  <span className="hidden md:block text-gray-300">|</span>
-                  <span className="flex items-center gap-2">
-                    <CheckCircle2 size={20} className="text-green-500" /> Immediate Joiner
-                  </span>
-                </p>
               </div>
 
               {/* Action Buttons */}

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
-import { Layout, User, Code2, Zap, Mail } from 'lucide-react';
+// 1. Updated Imports for more accurate icons
+import { Home, User, Layers, Briefcase, Mail } from 'lucide-react';
 
 const DockIcon = ({ mouseX, item, index, setHoveredIndex, hoveredIndex, onClick }) => {
     const ref = useRef(null);
@@ -49,11 +50,12 @@ const FloatingDock = ({ isVisible }) => {
     if (target && window.lenis) { window.lenis.scrollTo(target); }
   };
 
+  // 2. Updated Icon Mapping
   const items = [
-    { icon: Layout, label: "Home", href: "#home" },
+    { icon: Home, label: "Home", href: "#home" },
     { icon: User, label: "About", href: "#about" },
-    { icon: Code2, label: "Stack", href: "#tech-stack" },
-    { icon: Zap, label: "Works", href: "#projects" },
+    { icon: Layers, label: "Stack", href: "#tech-stack" },
+    { icon: Briefcase, label: "Works", href: "#projects" },
     { icon: Mail, label: "Contact", href: "#contact" },
   ];
 
@@ -61,13 +63,8 @@ const FloatingDock = ({ isVisible }) => {
     <AnimatePresence>
       {isVisible && (
         <motion.div 
-            // 1. Initial State: Start slightly lower, small, and transparent
             initial={{ y: 100, scale: 0.8, opacity: 0 }}
-            
-            // 2. Animate In: Bounce up to normal size
             animate={{ y: 0, scale: 1, opacity: 1 }}
-            
-            // 3. Exit State (The Squeeze): Scale down to 50%, fade out, and blur
             exit={{ 
                 y: 50, 
                 scale: 0.5, 
@@ -75,9 +72,7 @@ const FloatingDock = ({ isVisible }) => {
                 filter: "blur(10px)",
                 transition: { duration: 0.4, ease: "anticipate" } 
             }}
-            
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            
             onMouseMove={(e) => mouseX.set(e.pageX)} 
             onMouseLeave={() => {
                 mouseX.set(Infinity);
@@ -102,4 +97,4 @@ const FloatingDock = ({ isVisible }) => {
   );
 };
 
-export default FloatingDock;    
+export default FloatingDock;
