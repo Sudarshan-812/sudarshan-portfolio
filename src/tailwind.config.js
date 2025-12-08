@@ -8,6 +8,12 @@ module.exports = {
   darkMode: 'class', 
   theme: {
     extend: {
+      // 1. ADDED FONTS HERE
+      fontFamily: {
+        sans: ['Inter', 'sans-serif'],     // Default font (Body)
+        display: ['Satoshi', 'sans-serif'], // Heading font
+      },
+      // 2. EXISTING ANIMATIONS
       keyframes: {
         marquee: {
           '0%': { transform: 'translateX(0%)' },
