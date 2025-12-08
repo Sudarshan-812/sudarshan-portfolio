@@ -1,127 +1,156 @@
 import React, { useState, useRef, useEffect, useId } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { ChevronRight, ExternalLink, X } from 'lucide-react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'framer-motion';
+import { ExternalLink, X, Maximize2, Terminal, Hand } from 'lucide-react';
 import { cn } from '../utils/cn';
 import { USER_DATA } from '../data';
 import useOutsideClick from '../hooks/useOutsideClick';
 import SectionHeader from '../components/ui/SectionHeader';
 
-// 1. Accept setIsModalOpen prop
+const MacWindow = ({ project, index, setActive }) => {
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: 50 }}
+      whileInView={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -10, scale: 1.02 }}
+      onClick={() => setActive(project)}
+      className="relative flex-shrink-0 w-[85vw] md:w-[600px] group cursor-pointer snap-center"
+    >
+      {/* MAC WINDOW CONTAINER */}
+      <div className="bg-white dark:bg-[#1e1e1e] rounded-xl overflow-hidden shadow-2xl border border-black/5 dark:border-white/10 ring-1 ring-black/5 dark:ring-white/5">
+        
+        {/* WINDOW HEADER (Traffic Lights) */}
+        <div className="h-10 bg-gray-100 dark:bg-[#2d2d2d] border-b border-black/5 dark:border-black/20 flex items-center px-4 gap-2 select-none">
+          <div className="flex gap-2">
+            <div className="w-3 h-3 rounded-full bg-[#ff5f56] border border-black/10 shadow-inner" />
+            <div className="w-3 h-3 rounded-full bg-[#ffbd2e] border border-black/10 shadow-inner" />
+            <div className="w-3 h-3 rounded-full bg-[#27c93f] border border-black/10 shadow-inner" />
+          </div>
+          {/* Terminal Title */}
+          <div className="flex-1 text-center pr-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-md bg-black/5 dark:bg-black/20 text-[10px] font-mono text-gray-500 dark:text-gray-400">
+              <Terminal size={10} />
+              <span>~/projects/{project.title.toLowerCase().replace(/\s/g, '-')}</span>
+            </div>
+          </div>
+        </div>
+
+        {/* WINDOW BODY */}
+        <div className="relative h-[350px] md:h-[400px] overflow-hidden bg-black">
+          {/* Image */}
+          <img 
+            src={project.src} 
+            alt={project.title} 
+            className="w-full h-full object-cover opacity-90 transition-transform duration-500 group-hover:scale-105" 
+          />
+          
+          {/* Overlay Gradient */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
+
+          {/* Content (Bottom) */}
+          <div className="absolute bottom-0 left-0 w-full p-6 md:p-8">
+            <div className="flex items-end justify-between">
+              <div>
+                 <div className="flex gap-2 mb-3">
+                    <span className="px-2 py-1 bg-white/20 backdrop-blur-md rounded text-[10px] font-mono text-white border border-white/10">
+                        npm start
+                    </span>
+                 </div>
+                <h3 className="text-2xl md:text-3xl font-bold text-white font-display mb-1">
+                  {project.title}
+                </h3>
+                <p className="text-gray-400 text-sm max-w-sm line-clamp-1 font-mono">
+                  {project.description}
+                </p>
+              </div>
+              
+              <div className="w-10 h-10 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 group-hover:bg-white group-hover:text-black transition-colors text-white">
+                <Maximize2 size={18} />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  );
+};
+
 const ExpandableProjects = ({ setIsModalOpen }) => {
   const [active, setActive] = useState(null);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
   const ref = useRef(null);
+  const containerRef = useRef(null);
   const id = useId();
-  
-  // 2. Sync local 'active' state with parent 'isModalOpen' state
+
+  // --- PROGRESS BAR LOGIC ---
+  const { scrollXProgress } = useScroll({ container: containerRef });
+  const scaleX = useSpring(scrollXProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+
+  // --- MODAL SYNC LOGIC ---
   useEffect(() => {
     if (active) {
       setIsModalOpen(true);
-      document.body.style.overflow = "hidden"; // Lock scroll
+      document.body.style.overflow = "hidden";
     } else {
       setIsModalOpen(false);
-      document.body.style.overflow = "auto"; // Unlock scroll
+      document.body.style.overflow = "auto";
     }
-    
-    const onKeyDown = (event) => {
-      if (event.key === "Escape") setActive(null);
-    };
+    const onKeyDown = (event) => { if (event.key === "Escape") setActive(null); };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [active, setIsModalOpen]);
   
   useOutsideClick(ref, () => setActive(null));
-  
+
   return (
-    <section id="projects" className="py-24 md:py-32 relative z-20 overflow-hidden">
-      <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[100px] -z-10"></div>
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-600/10 rounded-full blur-[100px] -z-10"></div>
-      
-      <div className="container mx-auto px-4 md:px-6">
-        <SectionHeader title="Featured Projects" subtitle="Case Studies" />
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="flex flex-wrap justify-center gap-8 mb-16 pb-12 border-b border-black/5 dark:border-white/5"
-        >
-          <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-1">{USER_DATA.projects.length}+</p>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">Projects</p>
-          </div>
-          <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-1">50K+</p>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">Lines of Code</p>
-          </div>
-          <div className="text-center">
-            <p className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-1">100%</p>
-            <p className="text-gray-500 dark:text-gray-400 text-sm">Client Satisfaction</p>
-          </div>
-        </motion.div>
-
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[280px]">
-          {USER_DATA.projects.map((project, index) => (
-            <motion.div
-              key={index}
-              layoutId={`card-${project.title}-${id}`}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              onClick={() => setActive(project)}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              className={cn(
-                "group relative overflow-hidden rounded-3xl cursor-pointer",
-                "bg-white dark:bg-gradient-to-br dark:from-neutral-900 dark:to-neutral-950",
-                "border border-black/5 dark:border-white/5 hover:border-black/20 dark:hover:border-white/20",
-                "shadow-lg dark:shadow-none transition-all duration-500",
-                index === 0 && "md:col-span-2 md:row-span-2",
-                index === 3 && "lg:col-span-2"
-              )}
-            >
-              <motion.div 
-                layoutId={`image-${project.title}-${id}`}
-                className="absolute inset-0 z-0"
-                animate={{ scale: hoveredIndex === index ? 1.1 : 1 }}
-                transition={{ duration: 0.6 }}
-              >
-                <img loading="lazy" src={project.src} alt={project.title} className="w-full h-full object-cover opacity-90 group-hover:opacity-100 transition-opacity" />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 dark:from-black dark:via-black/80 to-transparent opacity-90 group-hover:opacity-70 transition-opacity duration-500"></div>
-              </motion.div>
-
-              <div className="relative z-10 h-full flex flex-col justify-between p-6 md:p-8">
-                <motion.div className="self-start" whileHover={{ scale: 1.1, rotate: 5 }}>
-                  <div className="p-3 bg-white/80 dark:bg-white/10 backdrop-blur-md rounded-2xl border border-black/10 dark:border-white/20 group-hover:bg-purple-500/20 group-hover:border-purple-500/50 transition-all duration-300">
-                    {project.icon}
-                  </div>
-                </motion.div>
-
-                <div className="space-y-3">
-                  <div className="flex items-center gap-2 mb-2">
-                    <div className="h-px flex-1 bg-gradient-to-r from-purple-500/50 to-transparent"></div>
-                  </div>
-                  <motion.h3 layoutId={`title-${project.title}-${id}`} className="text-2xl md:text-3xl font-bold text-neutral-900 dark:text-white font-display group-hover:text-purple-600 dark:group-hover:text-purple-300 transition-colors">
-                    {project.title}
-                  </motion.h3>
-                  <motion.p layoutId={`description-${project.description}-${id}`} className="text-gray-600 dark:text-gray-400 text-sm md:text-base">
-                    {project.description}
-                  </motion.p>
-                  <motion.div className="flex items-center gap-2 text-purple-600 dark:text-purple-400 font-semibold group-hover:gap-4 transition-all">
-                    <span>Explore Project</span>
-                    <ChevronRight size={20} className="group-hover:translate-x-1 transition-transform" />
-                  </motion.div>
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+    <section id="projects" className="py-24 relative z-20 overflow-hidden">
+      <div className="container mx-auto px-4 md:px-6 mb-8">
+        <SectionHeader title="Selected Works" subtitle="Terminal Access" />
       </div>
 
+      <div className="relative w-full">
+        
+        {/* --- SCROLLABLE CONTAINER --- */}
+        <div 
+            ref={containerRef}
+            className="flex gap-8 overflow-x-auto snap-x snap-mandatory px-4 md:px-12 pb-12 w-full scrollbar-hide"
+            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+        >
+          {USER_DATA.projects.map((project, index) => (
+            <MacWindow 
+              key={index} 
+              project={project} 
+              index={index} 
+              setActive={setActive} 
+            />
+          ))}
+          {/* Spacer to allow scrolling past last item */}
+          <div className="w-1 flex-shrink-0" />
+        </div>
+
+        {/* --- CUSTOM MINIMAL PROGRESS BAR --- */}
+        <div className="container mx-auto px-4 md:px-12 mt-4">
+            <div className="h-[2px] w-full bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
+                <motion.div 
+                    style={{ scaleX }} 
+                    className="h-full bg-purple-600 dark:bg-purple-500 origin-left"
+                />
+            </div>
+            <div className="flex justify-between mt-2 text-[10px] font-mono text-gray-400 uppercase tracking-widest">
+                <span>001</span>
+                <span>Scroll / Swipe</span>
+                <span>00{USER_DATA.projects.length}</span>
+            </div>
+        </div>
+
+      </div>
+
+      {/* --- MODAL (Standardized) --- */}
       <AnimatePresence>
         {active && typeof active === "object" && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="fixed inset-0 bg-black/60 dark:bg-black/90 backdrop-blur-xl h-full w-full z-[60]" />
+          <motion.div 
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} 
+            className="fixed inset-0 bg-white/80 dark:bg-black/80 backdrop-blur-md h-full w-full z-[60]" 
+          />
         )}
       </AnimatePresence>
       
@@ -129,35 +158,69 @@ const ExpandableProjects = ({ setIsModalOpen }) => {
         {active && typeof active === "object" ? (
           <div className="fixed inset-0 grid place-items-center z-[70] p-4">
             <motion.button
-              initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+              initial={{ opacity: 0, scale: 0.5 }} 
+              animate={{ opacity: 1, scale: 1 }} 
+              exit={{ opacity: 0, scale: 0.5 }}
               onClick={() => setActive(null)}
-              className="absolute top-4 right-4 p-3 bg-white/50 dark:bg-white/10 hover:bg-white/80 dark:hover:bg-white/20 rounded-full backdrop-blur-md border border-black/10 dark:border-white/10 transition-colors z-[80]"
+              className="absolute top-6 right-6 p-2 bg-gray-200 dark:bg-neutral-800 rounded-full shadow-xl border border-black/5 dark:border-white/10 z-[80] hover:scale-110 transition-transform"
             >
-              <X className="w-6 h-6 text-black dark:text-white" />
+              <X className="w-6 h-6 text-neutral-900 dark:text-white" />
             </motion.button>
 
-            <motion.div layoutId={`card-${active.title}-${id}`} ref={ref} className="w-full max-w-4xl h-full md:h-fit md:max-h-[85vh] flex flex-col bg-white dark:bg-neutral-900 rounded-3xl overflow-hidden border border-black/10 dark:border-white/20 shadow-2xl">
-              <motion.div layoutId={`image-${active.title}-${id}`} className="relative h-48 md:h-96 overflow-hidden">
-                <img loading="lazy" src={active.src} alt={active.title} className="w-full h-full object-cover" />
-                <div className="absolute inset-0 bg-gradient-to-t from-white via-white/50 dark:from-neutral-900 dark:via-neutral-900/50 to-transparent"></div>
-                <motion.div initial={{ scale: 0, rotate: -180 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.2, type: "spring" }} className="absolute bottom-6 left-6 p-4 bg-white/50 dark:bg-white/10 backdrop-blur-md rounded-2xl border border-black/10 dark:border-white/20 shadow-lg">
-                  {active.icon}
-                </motion.div>
+            <motion.div 
+              layoutId={`card-${active.title}-${id}`} 
+              ref={ref} 
+              className="w-full max-w-5xl h-[85vh] flex flex-col md:flex-row bg-white dark:bg-[#1e1e1e] rounded-xl overflow-hidden border border-black/10 dark:border-white/10 shadow-2xl relative ring-1 ring-black/5"
+            >
+              {/* Modal Header (Mac Style) */}
+              <div className="absolute top-0 left-0 w-full h-10 bg-white/90 dark:bg-[#2d2d2d]/90 backdrop-blur z-20 border-b border-black/5 dark:border-black/20 flex items-center px-4 gap-2">
+                  <div className="flex gap-2">
+                    <div className="w-3 h-3 rounded-full bg-[#ff5f56]" />
+                    <div className="w-3 h-3 rounded-full bg-[#ffbd2e]" />
+                    <div className="w-3 h-3 rounded-full bg-[#27c93f]" />
+                  </div>
+                  <div className="flex-1 text-center text-xs font-mono text-gray-500">~/view/{active.title.toLowerCase().replace(/\s/g, '-')}</div>
+              </div>
+
+              {/* Modal Image */}
+              <motion.div className="relative w-full md:w-1/2 h-64 md:h-full mt-10 md:mt-0">
+                <img src={active.src} alt={active.title} className="w-full h-full object-cover" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                <div className="absolute bottom-8 left-8">
+                    <h3 className="text-4xl font-bold text-white mb-2 font-display">{active.title}</h3>
+                    <div className="flex gap-2">
+                        <span className="px-3 py-1 rounded bg-white/20 text-white text-xs font-mono backdrop-blur-md border border-white/10">v1.0.0</span>
+                        <span className="px-3 py-1 rounded bg-green-500/20 text-green-400 text-xs font-mono backdrop-blur-md border border-green-500/20">Production</span>
+                    </div>
+                </div>
               </motion.div>
 
-              <div className="flex-1 overflow-y-auto">
-                <div className="p-6 md:p-8 space-y-6">
+              {/* Modal Content */}
+              <div className="flex-1 overflow-y-auto p-8 md:p-12 mt-0 md:mt-10 bg-white dark:bg-[#1e1e1e]">
+                <div className="space-y-8">
                   <div>
-                    <motion.h3 layoutId={`title-${active.title}-${id}`} className="text-3xl md:text-4xl font-bold text-neutral-900 dark:text-white mb-3 font-display">{active.title}</motion.h3>
-                    <motion.p layoutId={`description-${active.description}-${id}`} className="text-gray-600 dark:text-gray-400 text-lg">{active.description}</motion.p>
+                    <h4 className="text-xs font-bold text-purple-600 dark:text-purple-400 uppercase tracking-widest mb-2 font-mono">README.md</h4>
+                    <p className="text-xl md:text-2xl text-neutral-900 dark:text-white font-medium leading-relaxed">
+                      {active.description}
+                    </p>
                   </div>
-                  <div className="h-px bg-gradient-to-r from-transparent via-black/10 dark:via-white/10 to-transparent"></div>
-                  <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-gray-700 dark:text-gray-300 leading-relaxed space-y-4">
+
+                  <div className="h-px w-full bg-gray-200 dark:bg-white/5 border-t border-dashed border-gray-300 dark:border-white/10"></div>
+
+                  <motion.div 
+                    initial={{ opacity: 0, y: 20 }} 
+                    animate={{ opacity: 1, y: 0 }} 
+                    transition={{ delay: 0.2 }} 
+                    className="text-gray-600 dark:text-gray-400 leading-loose text-lg font-sans"
+                  >
                     {typeof active.content === "function" ? active.content() : active.content}
                   </motion.div>
-                  <motion.a layoutId={`button-${active.title}-${id}`} href={active.ctaLink} target="_blank" rel="noopener noreferrer" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 dark:bg-purple-500 hover:bg-purple-700 dark:hover:bg-purple-600 text-white font-bold rounded-full transition-colors">
-                    {active.ctaText} <ExternalLink size={18} />
-                  </motion.a>
+
+                  <div className="pt-4 flex gap-4">
+                    <a href={active.ctaLink} target="_blank" rel="noopener noreferrer" className="flex-1 inline-flex items-center justify-center gap-2 px-6 py-4 bg-neutral-900 dark:bg-white text-white dark:text-black font-bold rounded-lg hover:opacity-90 transition-opacity font-mono text-sm">
+                      <ExternalLink size={16} /> Open Live
+                    </a>
+                  </div>
                 </div>
               </div>
             </motion.div>
