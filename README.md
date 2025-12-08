@@ -1,16 +1,83 @@
-# React + Vite
+# 🚀 Sudarshan – Personal Portfolio  
+A modern, blazing-fast **React** portfolio website built to showcase my skills, projects, and experience.  
+Designed with **TailwindCSS**, animated using **Framer Motion**, and structured for scalability & responsiveness.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+👉 **Live Demo:** _Add your deployed link here_
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🌟 Features
 
-## React Compiler
+### 🎨 Modern UI/UX  
+- Clean, minimal, professional interface  
+- Mobile-first & fully responsive  
+- Smooth animations powered by **Framer Motion**  
+- Beautiful dark/light theme  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### ⚡ Performance Optimized  
+- Lightweight, modular React components  
+- TailwindCSS utility-first styling  
+- Reusable UI elements  
+- Fast loading times  
 
-## Expanding the ESLint configuration
+### 🧩 Tech Stack  
+| Category | Technologies |
+|---------|--------------|
+| **Frontend** | React, JavaScript / TypeScript |
+| **Styling** | TailwindCSS |
+| **Animations** | Framer Motion |
+| **Build Tool** | Vite / Create React App |
+| **Deployment** | Vercel / Netlify / GitHub Pages |
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## 📁 Folder Structure
+
+```bash
+project-root/
+├── public/
+├── src/
+│   ├── components/
+│   ├── sections/
+│   ├── hooks/
+│   ├── assets/
+│   └── App.jsx / App.tsx
+├── package.json
+├── tailwind.config.js
+├── vite.config.js   # (or CRA config files)
+└── README.md
+
+## 🛠️ Installation & Setup
+
+### Clone the repository:
+```bash
+git clone https://github.com/Sudarshan-812/sudarshan-portfolio.git
+cd sudarshan-portfolio
+
+
+Install dependencies:
+npm install
+
+Run development server:
+npm run dev
+
+Your site will be live at:
+http://localhost:5173  (Vite)
+http://localhost:3000   (CRA)
+
+
+👨‍💻 About Me
+
+Hi! I’m Sudarshan Kulkarni, a developer passionate about:
+
+Frontend Development (React + Next.js)
+
+UI/UX & Web Animations
+
+SaaS Projects
+
+AI Integrations
+
+Clean, scalable code
+
+If you'd like to collaborate or hire me — feel free to reach out.
