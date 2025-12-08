@@ -6,7 +6,7 @@ export const USER_DATA = {
   role: "Front-End Developer",
   subRoles: ["Front-End Developer", "Android Developer", "UI/UX Enthusiast"],
   location: "India",
-  email: "contact@example.com", 
+  email: "sudarshan.builds@gmail.com", 
   resumeLink: "#", 
   
   stack: [
@@ -26,21 +26,37 @@ export const USER_DATA = {
   ],
 
   projects: [
-    {
-      title: "Currency Converter",
-      description: "Real-time Currency Converter App",
-      icon: <Code2 size={24} className="text-yellow-500" />,
-      src: "https://images.unsplash.com/photo-1580519542036-c47de6196ba5?q=80&w=1200&auto=format&fit=crop",
-      ctaText: "View Code",
-      ctaLink: "#", 
-      content: () => (
-        <p>
-          A functional currency converter built with <span className="text-purple-600 dark:text-purple-400 font-semibold">JavaScript</span> and real-time API integration. 
-          <br/><br/>
-          It features dynamic rate fetching, input validation, and a clean UI for instant conversions between global currencies.
-        </p>
-      ),
-    },
+   {
+  title: "ResumAI",
+  description: "AI-Powered Resume Analyzer with Payments",
+  icon: <FileText size={26} className="text-purple-500" />,
+  // src: "https://resumai-bay.vercel.app/og.png", // ← add a 1200×630 OG image later (optional)
+  // or use this stunning placeholder for now:
+   src: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1200&auto=format&fit=crop",
+  ctaText: "Live Demo →",
+  ctaLink: "https://resumai-bay.vercel.app",
+  content: () => (
+    <div className="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+      <p>
+        A <strong>complete paid SaaS</strong> that scores resumes against job descriptions using <strong>Google Gemini 1.5 Flash</strong>.
+      </p>
+      <p>
+        Built and shipped <strong>in just 9 days</strong> while learning Next.js 15:
+      </p>
+      <ul className="list-disc list-inside space-y-1 text-sm">
+        <li>PDF parsing + intelligent text extraction</li>
+        <li>0–100 ATS score + missing keyword detection</li>
+        <li>AI-generated cover letters & interview prep</li>
+        <li>Full Razorpay integration (credits + webhooks)</li>
+        <li>Supabase Auth + Realtime + Edge Functions</li>
+        <li>Glassmorphism dark UI, fully responsive</li>
+      </ul>
+      <p className="pt-2 font-medium text-purple-600 dark:text-purple-400">
+        Live, monetized, and already helping people land jobs.
+      </p>
+    </div>
+  ),
+},
     {
       title: "AI DocuSaaS",
       description: "RAG SaaS Platform: Chat with PDF",

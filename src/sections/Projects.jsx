@@ -6,18 +6,29 @@ import { USER_DATA } from '../data';
 import useOutsideClick from '../hooks/useOutsideClick';
 import SectionHeader from '../components/ui/SectionHeader';
 
-const ExpandableProjects = () => {
+// 1. Accept setIsModalOpen prop
+const ExpandableProjects = ({ setIsModalOpen }) => {
   const [active, setActive] = useState(null);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const ref = useRef(null);
   const id = useId();
   
+  // 2. Sync local 'active' state with parent 'isModalOpen' state
   useEffect(() => {
-    function onKeyDown(event) { if (event.key === "Escape") { setActive(null); } }
-    if (active && typeof active === "object") { document.body.style.overflow = "hidden"; } else { document.body.style.overflow = "auto"; }
+    if (active) {
+      setIsModalOpen(true);
+      document.body.style.overflow = "hidden"; // Lock scroll
+    } else {
+      setIsModalOpen(false);
+      document.body.style.overflow = "auto"; // Unlock scroll
+    }
+    
+    const onKeyDown = (event) => {
+      if (event.key === "Escape") setActive(null);
+    };
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [active]);
+  }, [active, setIsModalOpen]);
   
   useOutsideClick(ref, () => setActive(null));
   
@@ -29,7 +40,6 @@ const ExpandableProjects = () => {
       <div className="container mx-auto px-4 md:px-6">
         <SectionHeader title="Featured Projects" subtitle="Case Studies" />
         
-        {/* Stats - Hidden on very small screens if needed, or stacking */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -50,7 +60,6 @@ const ExpandableProjects = () => {
           </div>
         </motion.div>
 
-        {/* Bento Grid - Mobile: 1 col, Tablet: 2 col, Desktop: 3 col */}
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-[280px]">
           {USER_DATA.projects.map((project, index) => (
             <motion.div
@@ -127,7 +136,6 @@ const ExpandableProjects = () => {
               <X className="w-6 h-6 text-black dark:text-white" />
             </motion.button>
 
-            {/* MODAL RESPONSIVE FIX: max-h-[85vh] prevents overflow on small screens */}
             <motion.div layoutId={`card-${active.title}-${id}`} ref={ref} className="w-full max-w-4xl h-full md:h-fit md:max-h-[85vh] flex flex-col bg-white dark:bg-neutral-900 rounded-3xl overflow-hidden border border-black/10 dark:border-white/20 shadow-2xl">
               <motion.div layoutId={`image-${active.title}-${id}`} className="relative h-48 md:h-96 overflow-hidden">
                 <img loading="lazy" src={active.src} alt={active.title} className="w-full h-full object-cover" />

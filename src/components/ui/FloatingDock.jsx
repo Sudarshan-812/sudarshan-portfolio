@@ -16,9 +16,10 @@ const DockIcon = ({ mouseX, item, index, setHoveredIndex, hoveredIndex, onClick 
         <AnimatePresence>
             {hoveredIndex === index && (
                 <motion.div
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: -15 }}
-                    exit={{ opacity: 0, y: 10 }}
+                    initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                    animate={{ opacity: 1, y: -15, scale: 1 }}
+                    exit={{ opacity: 0, y: 5, scale: 0.8 }}
+                    transition={{ duration: 0.2 }}
                     className="absolute -top-12 px-3 py-1 bg-white dark:bg-neutral-900 border border-black/10 dark:border-white/10 rounded-lg text-xs font-medium text-neutral-900 dark:text-white whitespace-nowrap shadow-xl"
                 >
                     {item.label}
@@ -39,7 +40,7 @@ const DockIcon = ({ mouseX, item, index, setHoveredIndex, hoveredIndex, onClick 
     );
 };
 
-const FloatingDock = () => {
+const FloatingDock = ({ isVisible }) => {
   const mouseX = useMotionValue(Infinity);
   const [hoveredIndex, setHoveredIndex] = useState(null);
 
@@ -57,27 +58,48 @@ const FloatingDock = () => {
   ];
 
   return (
-    <div 
-        onMouseMove={(e) => mouseX.set(e.pageX)} 
-        onMouseLeave={() => {
-            mouseX.set(Infinity);
-            setHoveredIndex(null);
-        }} 
-        className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 h-16 gap-4 items-end rounded-2xl bg-white/80 dark:bg-neutral-900/50 backdrop-blur-xl border border-black/5 dark:border-white/10 px-4 pb-3 hidden md:flex shadow-2xl dark:shadow-none"
-    >
-      {items.map((item, i) => (
-          <DockIcon 
-            key={i} 
-            mouseX={mouseX} 
-            item={item} 
-            index={i} 
-            setHoveredIndex={setHoveredIndex} 
-            hoveredIndex={hoveredIndex}
-            onClick={() => handleScroll(item.href)}
-          />
-      ))}
-    </div>
+    <AnimatePresence>
+      {isVisible && (
+        <motion.div 
+            // 1. Initial State: Start slightly lower, small, and transparent
+            initial={{ y: 100, scale: 0.8, opacity: 0 }}
+            
+            // 2. Animate In: Bounce up to normal size
+            animate={{ y: 0, scale: 1, opacity: 1 }}
+            
+            // 3. Exit State (The Squeeze): Scale down to 50%, fade out, and blur
+            exit={{ 
+                y: 50, 
+                scale: 0.5, 
+                opacity: 0,
+                filter: "blur(10px)",
+                transition: { duration: 0.4, ease: "anticipate" } 
+            }}
+            
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
+            
+            onMouseMove={(e) => mouseX.set(e.pageX)} 
+            onMouseLeave={() => {
+                mouseX.set(Infinity);
+                setHoveredIndex(null);
+            }} 
+            className="fixed bottom-8 left-1/2 -translate-x-1/2 z-50 h-16 gap-4 items-end rounded-2xl bg-white/80 dark:bg-neutral-900/50 backdrop-blur-xl border border-black/5 dark:border-white/10 px-4 pb-3 hidden md:flex shadow-2xl dark:shadow-none"
+        >
+          {items.map((item, i) => (
+              <DockIcon 
+                key={i} 
+                mouseX={mouseX} 
+                item={item} 
+                index={i} 
+                setHoveredIndex={setHoveredIndex} 
+                hoveredIndex={hoveredIndex}
+                onClick={() => handleScroll(item.href)}
+              />
+          ))}
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 
-export default FloatingDock;
+export default FloatingDock;    
