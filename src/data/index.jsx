@@ -32,7 +32,7 @@ export const USER_DATA = {
       description: "AI-Powered Resume Analyzer SaaS (Live & Monetized)",
       icon: <Zap size={26} className="text-yellow-500" />,
       // Using your actual dashboard screenshot if you uploaded it, or a high-quality relevant image
-      src: "/dashboard-preview.png", 
+      src: "../../public/RESUMAI-DB.png", 
       ctaText: "View Live App →",
       ctaLink: "https://resumai-bay.vercel.app",
       content: () => (
@@ -76,7 +76,7 @@ export const USER_DATA = {
       title: "Orbital OS",
       description: "Real-Time Trading Dashboard",
       icon: <Monitor size={24} className="text-blue-500" />,
-      src: "https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=1200&auto=format&fit=crop", 
+      src: "https://i.pinimg.com/1200x/de/c5/59/dec559eca9f7f489961cc1105481f4d6.jpg", 
       ctaText: "View Live",
       ctaLink: "https://orbital-os.vercel.app", // Assuming you have a link or keep #
       content: () => (
@@ -91,7 +91,7 @@ export const USER_DATA = {
       title: "Developer Portfolio",
       description: "3D Interactive Personal Website",
       icon: <Layout size={24} className="text-purple-500" />,
-      src: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop", 
+      src: "../../public/PORTFOLIO-DB.png", 
       ctaText: "You are here",
       ctaLink: "#", 
       content: () => (
