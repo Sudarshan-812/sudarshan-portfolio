@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Mail, Linkedin, CheckCircle2, Download, MapPin, ChevronDown } from 'lucide-react';
-// 👇 Ensure this import path is correct based on your folder structure
-import { USER_DATA } from '../data'; 
+import { Mail, Linkedin, Download, MapPin, ChevronDown, ArrowRight, Zap, Terminal, Sparkles } from 'lucide-react';
+// 👇 Ensure path is correct
+import { USER_DATA } from '../data/index.jsx'; 
 import Spotlight from '../components/ui/Spotlight';
 
-// --- Production-Grade Typewriter ---
+// --- Internal Typewriter Component ---
 const Typewriter = ({ words }) => {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState('');
@@ -13,10 +13,9 @@ const Typewriter = ({ words }) => {
   const [speed, setSpeed] = useState(150);
 
   useEffect(() => {
-    // Safety check if words are empty
     if (!words || words.length === 0) return;
-
     const currentWord = words[index % words.length];
+    
     const updateText = () => {
       setText((prev) => 
         isDeleting 
@@ -28,11 +27,11 @@ const Typewriter = ({ words }) => {
     const timer = setTimeout(updateText, speed);
 
     if (!isDeleting && text === currentWord) {
-      setTimeout(() => setIsDeleting(true), 1500);
+      setTimeout(() => setIsDeleting(true), 2000); 
     } else if (isDeleting && text === '') {
       setIsDeleting(false);
       setIndex((prev) => prev + 1);
-      setSpeed(150);
+      setSpeed(100);
     } else if (isDeleting) {
       setSpeed(50);
     }
@@ -41,146 +40,128 @@ const Typewriter = ({ words }) => {
   }, [text, isDeleting, index, words, speed]);
 
   return (
-    <span className="inline-block min-w-[280px] text-left">
-      <span aria-hidden="true">
-        {text}
-        <span className="animate-pulse text-purple-500">|</span>
-      </span>
-      <span className="sr-only">
-        Role: {words?.join(', ')}
-      </span>
+    <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400 font-bold">
+      {text}
+      <span className="text-purple-400 animate-pulse">|</span>
     </span>
   );
 };
 
 const Hero = () => {
-  const [imgSrc, setImgSrc] = useState(USER_DATA.avatar);
-  
-  const handleImgError = () => {
-    setImgSrc("https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop");
-  };
-
   return (
-    <section id="home" className="min-h-[90vh] flex items-center justify-center relative overflow-hidden pt-32 pb-20 px-6 bg-white dark:bg-black" aria-label="Introduction">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-black selection:bg-purple-500/30">
       
-      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="rgba(168,85,247,0.5)" />
+      {/* --- 1. Background Magic (Grid + Spotlight) --- */}
+      <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="white" />
       
-      {/* Decorative Grid */}
-      <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#ffffff10_1px,transparent_1px)] opacity-50 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
+      {/* Grid Pattern with Fade Mask */}
+      <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)]"></div>
 
-      <div className="container mx-auto max-w-6xl relative z-10">
-        <div className="flex flex-col md:flex-row items-center gap-12 md:gap-20">
-          
-          {/* --- Photo Section --- */}
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.9, x: -50 }}
-            animate={{ opacity: 1, scale: 1, x: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="relative flex-shrink-0"
+      <div className="relative z-10 container mx-auto px-6">
+        <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
+
+          {/* --- 2. Top Badge (Pill) --- */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="mb-8"
           >
-            <div className="relative w-64 h-64 md:w-[400px] md:h-[400px] rounded-full p-2 border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 shadow-2xl">
-              <div className="w-full h-full rounded-full overflow-hidden relative">
-                <img 
-                  src={imgSrc} 
-                  alt={`${USER_DATA.name} - Profile Picture`} 
-                  onError={handleImgError}
-                  className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-black/10 dark:ring-white/10 pointer-events-none"></div>
-              </div>
-              
-              {/* Online Badge */}
-              <div 
-                className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-white dark:bg-neutral-800 py-2 px-4 rounded-full shadow-xl border border-black/5 dark:border-white/10 flex items-center gap-2 z-20"
-                role="status" 
-                aria-label="Status: Online"
-              >
-                <span className="relative flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
-                </span>
-                <span className="text-xs font-bold text-neutral-900 dark:text-white uppercase tracking-wider">Online</span>
-              </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-white/10 bg-white/5 backdrop-blur-xl shadow-[0_0_15px_rgba(168,85,247,0.15)]">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+              </span>
+              <span className="text-xs font-medium text-zinc-300 tracking-wide">
+                Available to Join Immediately
+              </span>
             </div>
-            
-            <div aria-hidden="true" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-purple-500/20 rounded-full blur-[80px] -z-10"></div>
           </motion.div>
 
-          {/* --- Text Section --- */}
-          <div className="text-center md:text-left flex-1">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-            >
-              <h1 className="text-5xl md:text-7xl font-black text-neutral-900 dark:text-white mb-4 tracking-tight font-display">
-                {USER_DATA.name} <span className="text-purple-600 dark:text-purple-500">K.</span>
-              </h1>
-              
-              <h2 className="text-2xl md:text-4xl font-bold text-gray-500 dark:text-gray-400 mb-8 h-10 flex items-center justify-center md:justify-start">
-                <Typewriter words={USER_DATA.subRoles} />
-              </h2>
+          {/* --- 3. Name (Fixed Size & Gradient) --- */}
+          <motion.h1
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="text-5xl sm:text-6xl md:text-8xl font-black tracking-tight text-white mb-6 relative z-20"
+          >
+            {USER_DATA.name}
+          </motion.h1>
 
-              <div className="mb-10 flex flex-col items-center md:items-start gap-4">
-                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-green-100 dark:bg-green-500/10 text-green-700 dark:text-green-400 font-bold text-lg border border-green-200 dark:border-green-500/20">
-                    <CheckCircle2 size={20} aria-hidden="true" />
-                    <span>Immediate Joiner</span>
-                </div>
-                
-                <div className="flex items-center gap-2 text-lg text-gray-600 dark:text-gray-300 font-medium">
-                  <MapPin size={20} className="text-purple-600 dark:text-purple-400" aria-hidden="true" />
-                  {/* 👇 Dynamic Location from Data File */}
-                  <span>{USER_DATA.location}</span>
-                </div>
-              </div>
+          {/* --- 4. Sub-Headline (Typewriter) --- */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-xl md:text-3xl text-zinc-400 font-medium mb-8 h-10 flex items-center gap-2"
+          >
+            <span className="hidden sm:inline">Building</span>
+            <Typewriter words={USER_DATA.subRoles} />
+          </motion.div>
 
-              {/* --- Buttons --- */}
-              <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
-                <a 
-                  href={`mailto:${USER_DATA.email}`}
-                  className="w-full sm:w-auto px-8 py-4 bg-neutral-900 dark:bg-white text-white dark:text-black text-lg font-bold rounded-full hover:scale-105 transition-transform shadow-lg flex items-center justify-center gap-2 outline-none ring-offset-2 focus-visible:ring-2 focus-visible:ring-purple-500 dark:ring-offset-black"
-                  aria-label="Send me an email"
-                >
-                  <Mail size={20} aria-hidden="true" />
-                  Email Me
-                </a>
-                
-                <a 
-                  href={USER_DATA.linkedinLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-full sm:w-auto px-8 py-4 border-2 border-gray-200 dark:border-white/20 text-neutral-900 dark:text-white text-lg font-bold rounded-full hover:bg-gray-100 dark:hover:bg-white/10 transition-colors flex items-center justify-center gap-2 outline-none ring-offset-2 focus-visible:ring-2 focus-visible:ring-purple-500 dark:ring-offset-black"
-                  aria-label="Visit my LinkedIn profile"
-                >
-                  <Linkedin size={20} aria-hidden="true" />
-                  LinkedIn
-                </a>
-
-                {/* 👇 Now uses the variable from your data file */}
-                <a 
-                  href={USER_DATA.resumeLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="sm:ml-4 text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 font-medium text-sm flex items-center gap-1 transition-colors outline-none rounded-md focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 dark:ring-offset-black"
-                  aria-label="Download Resume PDF"
-                >
-                  Download CV <Download size={16} aria-hidden="true" />
-                </a>
-              </div>
-            </motion.div>
-          </div>
-        </div>
-
-        <motion.div 
+          {/* --- 5. Location --- */}
+          <motion.p
             initial={{ opacity: 0 }}
-            animate={{ opacity: 1, y: [0, 10, 0] }}
-            transition={{ delay: 2, duration: 2, repeat: Infinity }}
-            className="md:hidden absolute bottom-4 left-1/2 -translate-x-1/2 text-gray-400 flex flex-col items-center gap-1 text-xs uppercase tracking-widest font-medium pointer-events-none"
-            aria-hidden="true"
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4 }}
+            className="flex items-center gap-2 text-zinc-500 mb-10 text-sm md:text-base"
+          >
+            <MapPin size={16} className="text-purple-500" />
+            {USER_DATA.location}
+          </motion.p>
+
+          {/* --- 6. Buttons (Glassmorphism & Glow) --- */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+            className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto"
+          >
+            {/* Primary CTA */}
+            <a
+              href={`mailto:${USER_DATA.email}`}
+              className="group relative w-full sm:w-auto px-8 py-3.5 bg-white text-black text-base font-bold rounded-xl overflow-hidden hover:scale-105 transition-transform duration-300"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity" />
+              <span className="relative flex items-center justify-center gap-2">
+                <Mail size={18} /> Hire Me
+              </span>
+            </a>
+
+            {/* Resume Button */}
+            <a
+              href={USER_DATA.resumeLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-8 py-3.5 bg-white/5 border border-white/10 text-white text-base font-semibold rounded-xl hover:bg-white/10 transition-all flex items-center justify-center gap-2 backdrop-blur-sm"
+            >
+              <Download size={18} /> Download CV
+            </a>
+
+            {/* LinkedIn (Minimal) */}
+            <a
+              href={USER_DATA.linkedinLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full sm:w-auto px-6 py-3.5 text-zinc-400 hover:text-white transition-colors flex items-center justify-center gap-2"
+            >
+              <Linkedin size={18} /> <span className="sm:hidden">LinkedIn</span>
+            </a>
+          </motion.div>
+
+        </div>
+        
+        {/* Scroll Hint */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, y: [0, 10, 0] }}
+          transition={{ delay: 2, duration: 2, repeat: Infinity }}
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none"
         >
-            <span>Scroll</span>
-            <ChevronDown size={16} />
+          <span className="text-[10px] font-bold text-zinc-600 uppercase tracking-widest">Scroll</span>
+          <ChevronDown size={16} className="text-zinc-600" />
         </motion.div>
+
       </div>
     </section>
   );
