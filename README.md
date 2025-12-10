@@ -2,7 +2,7 @@
 A modern, blazing-fast **React** portfolio website built to showcase my skills, projects, and experience.  
 Designed with **TailwindCSS**, animated using **Framer Motion**, and structured for scalability & responsiveness.
 
-👉 **Live Demo:** _Add your deployed link here_
+👉 **Live Demo:** (https://sudarshan-portfolio-zeta.vercel.app/)
 
 ---
 
