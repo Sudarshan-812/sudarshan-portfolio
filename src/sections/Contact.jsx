@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Send, CheckCircle2, Sparkles, Mail, MapPin } from 'lucide-react';
+import { Send, CheckCircle2, Sparkles, Mail, MapPin, Loader2 } from 'lucide-react';
 import { USER_DATA } from '../data';
 
 const Contact = () => {
   const [isSent, setIsSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false); // 👈 New loading state
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
   const handleChange = (e) => {
@@ -12,14 +13,38 @@ const Contact = () => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSend = (e) => {
+  const handleSend = async (e) => {
     e.preventDefault();
-    setIsSent(true);
-    // Reset after 3 seconds
-    setTimeout(() => {
-        setIsSent(false);
+    setIsSubmitting(true); // Start loading
+
+    
+    const endpoint = "https://formspree.io/f/mblnzkzq"; 
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (response.ok) {
+        setIsSent(true);
         setFormData({ name: '', email: '', message: '' });
-    }, 3000);
+        
+        // Reset success message after 3 seconds
+        setTimeout(() => {
+            setIsSent(false);
+        }, 3000);
+      } else {
+        alert("Something went wrong. Please try again.");
+      }
+    } catch (error) {
+      alert("Failed to send message. Please check your connection.");
+    } finally {
+      setIsSubmitting(false); // Stop loading
+    }
   };
 
   return (
@@ -132,11 +157,20 @@ const Contact = () => {
 
               <button 
                 type="submit"
-                disabled={isSent}
+                disabled={isSubmitting || isSent}
                 className={`w-full py-4 font-bold rounded-xl flex items-center justify-center gap-2 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5 ${isSent ? "bg-green-500 text-white cursor-default" : "bg-neutral-900 dark:bg-white text-white dark:text-black hover:bg-purple-600 dark:hover:bg-purple-400 dark:hover:text-white"}`}
               >
                 <AnimatePresence mode="wait">
-                  {isSent ? (
+                  {isSubmitting ? (
+                    <motion.div
+                        key="sending"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        className="flex items-center gap-2"
+                    >
+                        <Loader2 size={20} className="animate-spin" /> Sending...
+                    </motion.div>
+                  ) : isSent ? (
                     <motion.div 
                       key="sent"
                       initial={{ opacity: 0, scale: 0.5 }}
