@@ -158,8 +158,9 @@ const Hero = () => {
                 </a>
 
                  <a 
-                  href={USER_DATA.resumeLink}
-                  download
+                  href="/public/Sudarshan-Resume.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="sm:ml-4 text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 font-medium text-sm flex items-center gap-1 transition-colors outline-none rounded-md focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 dark:ring-offset-black"
                   aria-label="Download Resume PDF"
                 >

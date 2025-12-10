@@ -7,7 +7,7 @@ export const USER_DATA = {
   subRoles: ["Frontend Developer", "Android Developer", "UI/UX Enthusiast"],
   location: "India",
   email: "sudarshan.builds@gmail.com", 
-  resumeLink: "#", 
+  resumeLink: "Sudarshan_Resume.pdf", 
   
   stack: [
     { name: "React.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
