@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Linkedin, CheckCircle2, Download, MapPin, ChevronDown } from 'lucide-react';
-import { USER_DATA } from '../data';
+// 👇 Ensure this import path is correct based on your folder structure
+import { USER_DATA } from '../data'; 
 import Spotlight from '../components/ui/Spotlight';
 
 // --- Production-Grade Typewriter ---
-// Fix: Added aria-hidden to animated text and a hidden SR-only span for the full list
 const Typewriter = ({ words }) => {
   const [index, setIndex] = useState(0);
   const [text, setText] = useState('');
@@ -13,6 +13,9 @@ const Typewriter = ({ words }) => {
   const [speed, setSpeed] = useState(150);
 
   useEffect(() => {
+    // Safety check if words are empty
+    if (!words || words.length === 0) return;
+
     const currentWord = words[index % words.length];
     const updateText = () => {
       setText((prev) => 
@@ -44,15 +47,13 @@ const Typewriter = ({ words }) => {
         <span className="animate-pulse text-purple-500">|</span>
       </span>
       <span className="sr-only">
-        Role: {words.join(', ')}
+        Role: {words?.join(', ')}
       </span>
     </span>
   );
 };
 
 const Hero = () => {
-  // --- Bulletproof Image State ---
-  // Tries USER_DATA.avatar first. If it fails (or is empty), falls back to the Unsplash ID.
   const [imgSrc, setImgSrc] = useState(USER_DATA.avatar);
   
   const handleImgError = () => {
@@ -64,7 +65,7 @@ const Hero = () => {
       
       <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="rgba(168,85,247,0.5)" />
       
-      {/* Decorative Grid - Aria Hidden */}
+      {/* Decorative Grid */}
       <div aria-hidden="true" className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] dark:bg-[radial-gradient(#ffffff10_1px,transparent_1px)] opacity-50 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] pointer-events-none"></div>
 
       <div className="container mx-auto max-w-6xl relative z-10">
@@ -80,7 +81,7 @@ const Hero = () => {
             <div className="relative w-64 h-64 md:w-[400px] md:h-[400px] rounded-full p-2 border border-black/5 dark:border-white/10 bg-white dark:bg-neutral-900 shadow-2xl">
               <div className="w-full h-full rounded-full overflow-hidden relative">
                 <img 
-                  src={imgSrc || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop"} 
+                  src={imgSrc} 
                   alt={`${USER_DATA.name} - Profile Picture`} 
                   onError={handleImgError}
                   className="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700"
@@ -88,7 +89,7 @@ const Hero = () => {
                 <div className="absolute inset-0 rounded-full ring-1 ring-inset ring-black/10 dark:ring-white/10 pointer-events-none"></div>
               </div>
               
-              {/* Online Badge - Aria Label added for context */}
+              {/* Online Badge */}
               <div 
                 className="absolute bottom-4 right-4 md:bottom-8 md:right-8 bg-white dark:bg-neutral-800 py-2 px-4 rounded-full shadow-xl border border-black/5 dark:border-white/10 flex items-center gap-2 z-20"
                 role="status" 
@@ -102,7 +103,6 @@ const Hero = () => {
               </div>
             </div>
             
-            {/* Decorative Blur - Aria Hidden */}
             <div aria-hidden="true" className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-purple-500/20 rounded-full blur-[80px] -z-10"></div>
           </motion.div>
 
@@ -118,7 +118,7 @@ const Hero = () => {
               </h1>
               
               <h2 className="text-2xl md:text-4xl font-bold text-gray-500 dark:text-gray-400 mb-8 h-10 flex items-center justify-center md:justify-start">
-                <Typewriter words={USER_DATA.subRoles || ["Frontend Engineer", "React Developer", "UI/UX Enthusiast"]} />
+                <Typewriter words={USER_DATA.subRoles} />
               </h2>
 
               <div className="mb-10 flex flex-col items-center md:items-start gap-4">
@@ -129,13 +129,12 @@ const Hero = () => {
                 
                 <div className="flex items-center gap-2 text-lg text-gray-600 dark:text-gray-300 font-medium">
                   <MapPin size={20} className="text-purple-600 dark:text-purple-400" aria-hidden="true" />
-                  <span>Vijayapura</span>
-                  <span className="text-gray-300 dark:text-gray-600" aria-hidden="true">|</span>
-                  <span>Relocating to <span className="text-neutral-900 dark:text-white font-bold">BLR / HYD</span></span>
+                  {/* 👇 Dynamic Location from Data File */}
+                  <span>{USER_DATA.location}</span>
                 </div>
               </div>
 
-              {/* --- Buttons (Focus Visible Fixed) --- */}
+              {/* --- Buttons --- */}
               <div className="flex flex-col sm:flex-row items-center gap-4 justify-center md:justify-start">
                 <a 
                   href={`mailto:${USER_DATA.email}`}
@@ -157,8 +156,9 @@ const Hero = () => {
                   LinkedIn
                 </a>
 
-                 <a 
-                  href="/public/Sudarshan-Resume.pdf"
+                {/* 👇 Now uses the variable from your data file */}
+                <a 
+                  href={USER_DATA.resumeLink}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="sm:ml-4 text-gray-500 hover:text-purple-600 dark:hover:text-purple-400 font-medium text-sm flex items-center gap-1 transition-colors outline-none rounded-md focus-visible:ring-2 focus-visible:ring-purple-500 focus-visible:ring-offset-2 dark:ring-offset-black"
@@ -171,7 +171,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Mobile Scroll Hint - Aria Hidden */}
         <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1, y: [0, 10, 0] }}

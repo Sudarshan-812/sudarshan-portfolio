@@ -1,104 +1,106 @@
-import { Code2, FileText, Monitor, Car, Layout, Terminal } from 'lucide-react';
+import { Code2, FileText, Monitor, Car, Layout, Terminal, Utensils, Zap } from 'lucide-react';
 
 // 1. MUST HAVE "export const" HERE
 export const USER_DATA = {
-  name: "Sudarshan", 
-  role: "Frontend Developer",
-  subRoles: ["Frontend Developer", "Android Developer", "UI/UX Enthusiast"],
-  location: "India",
+  name: "Sudarshan Kulkarni", 
+  role: "Full Stack Product Engineer",
+  subRoles: ["Full Stack Developer", "Next.js Expert", "Mobile App Developer", "Product Engineer"],
+  location: "Vijayapura, Karnataka (Relocating to BLR/HYD)",
   email: "sudarshan.builds@gmail.com", 
-  resumeLink: "Sudarshan_Resume.pdf", 
-  
+  // 👇 Points to the file in your public folder
+  resumeLink: "/Sudarshan-Resume.pdf", 
+  linkedinLink: "https://www.linkedin.com/in/sudarshan-kulkarni-3815b83a0/",
+  githubLink: "https://github.com/Sudarshan-812",
+  avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1000&auto=format&fit=crop",
+
   stack: [
-    { name: "React.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-    { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg" },
+    { name: "Next.js 15", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg" },
+    { name: "React", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+    { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg" },
     { name: "Tailwind CSS", icon: "https://tailwindcss.com/_next/static/media/tailwindcss-mark.d52e9897.svg" },
-    { name: "HTML5", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg" },
-    { name: "CSS3", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" },
-    { name: "Kotlin", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kotlin/kotlin-original.svg" },
-    { name: "Android", icon: "https://developer.android.com/static/images/brand/android-head_flat.png" },
+    { name: "Supabase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/supabase/supabase-original.svg" },
+    { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" },
+    { name: "React Native", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
     { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/figma/figma-original.svg" },
     { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" },
     { name: "Python", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" },
-    { name: "C", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" },
-    { name: "C++", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" },
-    { name: "C#", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/csharp/csharp-original.svg" }
   ],
 
   projects: [
-   {
-  title: "ResumAI",
-  description: "AI-Powered Resume Analyzer with Payments",
-  icon: <FileText size={26} className="text-purple-500" />,
-  // src: "https://resumai-bay.vercel.app/og.png", // ← add a 1200×630 OG image later (optional)
-  // or use this stunning placeholder for now:
-   src: "https://images.unsplash.com/photo-1587620962725-abab7fe55159?q=80&w=1200&auto=format&fit=crop",
-  ctaText: "Live Demo →",
-  ctaLink: "https://resumai-bay.vercel.app",
-  content: () => (
-    <div className="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
-      <p>
-        A <strong>complete paid SaaS</strong> that scores resumes against job descriptions using <strong>Google Gemini 1.5 Flash</strong>.
-      </p>
-      <p>
-        Built and shipped <strong>in just 9 days</strong> while learning Next.js 15:
-      </p>
-      <ul className="list-disc list-inside space-y-1 text-sm">
-        <li>PDF parsing + intelligent text extraction</li>
-        <li>0–100 ATS score + missing keyword detection</li>
-        <li>AI-generated cover letters & interview prep</li>
-        <li>Full Razorpay integration (credits + webhooks)</li>
-        <li>Supabase Auth + Realtime + Edge Functions</li>
-        <li>Glassmorphism dark UI, fully responsive</li>
-      </ul>
-      <p className="pt-2 font-medium text-purple-600 dark:text-purple-400">
-        Live, monetized, and already helping people land jobs.
-      </p>
-    </div>
-  ),
-},
     {
-      title: "AI DocuSaaS",
-      description: "RAG SaaS Platform: Chat with PDF",
-      icon: <FileText size={24} className="text-purple-500" />,
-      src: "https://images.unsplash.com/photo-1563207153-f4c0eb66487d?q=80&w=1200&auto=format&fit=crop", 
-      ctaText: "View Demo",
-      ctaLink: "#", 
+      title: "ResumAI",
+      description: "AI-Powered Resume Analyzer SaaS (Live & Monetized)",
+      icon: <Zap size={26} className="text-yellow-500" />,
+      // Using your actual dashboard screenshot if you uploaded it, or a high-quality relevant image
+      src: "/dashboard-preview.png", 
+      ctaText: "View Live App →",
+      ctaLink: "https://resumai-bay.vercel.app",
       content: () => (
-        <p>
-          A <strong>Next.js</strong> SaaS application leveraging <strong>Retrieval-Augmented Generation (RAG)</strong> to enable users to chat with their PDF documents. 
-          <br/><br/>
-          Features include: <strong>Gemini AI</strong> integration, <strong>Pinecone</strong> vector database, a sophisticated split-screen UI, and <strong>Stripe</strong> subscription paywalls.
-        </p>
+        <div className="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+          <p>
+            A <strong>production-ready SaaS</strong> that helps developers get hired by optimizing resumes using <strong>Gemini 1.5 AI</strong>.
+          </p>
+          <ul className="list-disc list-inside space-y-1 text-sm">
+            <li><strong>Monetized:</strong> Tiered pricing with Razorpay integration.</li>
+            <li><strong>AI Analysis:</strong> Real-time PDF parsing & scoring (0-100).</li>
+            <li><strong>Tech Stack:</strong> Next.js 14, TypeScript, Supabase Auth & DB.</li>
+            <li><strong>Performance:</strong> 100% Lighthouse Score, Edge Functions.</li>
+          </ul>
+          <p className="pt-2 font-medium text-purple-600 dark:text-purple-400">
+            Built from scratch to solve the "ATS Black Hole" problem.
+          </p>
+        </div>
       ),
     },
     {
-      title: "Food Delivery App",
-      description: "Full-Stack Web App with Live Tracking",
+      title: "TiffinTales",
+      description: "Hyperlocal Food Delivery Marketplace",
+      icon: <Utensils size={24} className="text-orange-500" />,
+      src: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=1200&auto=format&fit=crop", 
+      ctaText: "In Development",
+      ctaLink: "#", 
+      content: () => (
+        <div className="space-y-4 text-gray-600 dark:text-gray-300 leading-relaxed">
+          <p>
+            A dual-sided marketplace connecting home cooks with local customers. Currently building the <strong>React Native</strong> mobile app.
+          </p>
+          <ul className="list-disc list-inside space-y-1 text-sm">
+            <li><strong>Geolocation:</strong> PostGIS filtering for 5km radius.</li>
+            <li><strong>Realtime:</strong> Live order tracking with Supabase subscriptions.</li>
+            <li><strong>Architecture:</strong> Expo Router, NativeWind, TypeScript.</li>
+          </ul>
+        </div>
+      ),
+    },
+    {
+      title: "Orbital OS",
+      description: "Real-Time Trading Dashboard",
       icon: <Monitor size={24} className="text-blue-500" />,
-      src: "https://images.unsplash.com/photo-1557007010-333e8b0b8e66?q=80&w=1200&auto=format&fit=crop", 
+      src: "https://images.unsplash.com/photo-1611974765270-ca1258634369?q=80&w=1200&auto=format&fit=crop", 
       ctaText: "View Live",
-      ctaLink: "#", 
+      ctaLink: "https://orbital-os.vercel.app", // Assuming you have a link or keep #
       content: () => (
         <p>
-          A high-fidelity food ordering application built with <strong>React</strong> and <strong>Redux Toolkit</strong>. 
+          A high-performance financial dashboard inspired by Bloomberg Terminals.
           <br/><br/>
-          Features <strong>Framer Motion</strong> for a "Parallax Ingredient Scroll," real-time map tracking via <strong>Socket.io</strong>, Razorpay payment flow, and advanced component architecture.
+          Features <strong>GPU-accelerated</strong> particle physics, custom candlestick charts using <strong>Canvas API</strong>, and a glassmorphism UI built with <strong>React</strong> and <strong>Framer Motion</strong>.
         </p>
       ),
     },
-     {
-      title: "Uber Clone",
-      description: "Real-Time Ride-Hailing Mobile App",
-      icon: <Car size={24} className="text-green-500" />,
-      src: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?q=80&w=1200&auto=format&fit=crop", 
-      ctaText: "View Mobile Code",
+    {
+      title: "Developer Portfolio",
+      description: "3D Interactive Personal Website",
+      icon: <Layout size={24} className="text-purple-500" />,
+      src: "https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop", 
+      ctaText: "You are here",
       ctaLink: "#", 
       content: () => (
         <p>
-          A full-stack mobile application engineered with <strong>React Native</strong> and <strong>PostgreSQL</strong>.
+          The website you are looking at right now. Built to showcase technical skills with style.
           <br/><br/>
-          Features include: <strong>Mapbox GL</strong> integration, bi-directional communication via <strong>Socket.io</strong>, background location services, and native mobile gestures (Bottom Sheet UI).
+          <strong>Tech:</strong> Next.js, Tailwind CSS, Framer Motion, Formspree.
+          <br/>
+          <strong>Performance:</strong> Sub-0.8s First Contentful Paint (FCP).
         </p>
       ),
     }
@@ -108,53 +110,66 @@ export const USER_DATA = {
 // 2. MUST HAVE "export const" HERE TOO
 export const codeSnippets = [
   {
-    filename: "Portfolio.jsx",
-    icon: <Layout size={14} className="text-blue-500" />,
-    language: "jsx",
-    code: `const Portfolio = () => {
-  return (
-    <div className="app-container">
-      <Hero 
-        name="${USER_DATA.name}"
-        role="${USER_DATA.role}"
-      />
-      <TechStack 
-        stack={["React", "Kotlin", "Figma"]} 
-      />
-    </div>
-  );
+    filename: "ResumAI.ts",
+    icon: <Zap size={14} className="text-yellow-500" />,
+    language: "typescript",
+    code: `// The core AI Analysis Engine
+export async function analyzeResume(file: File) {
+  const text = await parsePDF(file);
+  
+  // Gemini 1.5 Flash for instant scoring
+  const analysis = await gemini.generateContent({
+    prompt: \`Analyze this resume for a Senior React role.
+             Return JSON with:
+             - ATS Score (0-100)
+             - Missing Keywords
+             - Bullet point improvements\`,
+    input: text
+  });
+
+  return JSON.parse(analysis.response);
+}`
+  },
+  {
+    filename: "SupabaseAuth.tsx",
+    icon: <Code2 size={14} className="text-green-500" />,
+    language: "tsx",
+    code: `// Secure Authentication Flow
+const handleLogin = async () => {
+  const { error } = await supabase.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: \`\${location.origin}/auth/callback\`
+    }
+  });
+
+  if (!error) {
+    toast.success("Welcome back! Redirecting...");
+  }
 };`
   },
   {
-    filename: "CurrencyConverter.js",
-    icon: <Code2 size={14} className="text-yellow-500" />,
-    language: "javascript",
-    code: `async function convert(amount, from, to) {
-  const res = await fetch(\`api/v1/rates\`);
-  const data = await res.json();
-  
-  const rate = data.rates[to] / data.rates[from];
-  return (amount * rate).toFixed(2);
-}
+    filename: "TiffinTalesMap.tsx",
+    icon: <Car size={14} className="text-purple-500" />,
+    language: "tsx",
+    code: `// Real-time Driver Tracking
+export default function LiveMap({ orderId }) {
+  const [location, setLocation] = useState(null);
 
-// Real-time updates enabled`
-  },
-  {
-    filename: "AndroidActivity.kt",
-    icon: <Terminal size={14} className="text-purple-500" />,
-    language: "kotlin",
-    code: `class MainActivity : AppCompatActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            PortfolioTheme {
-                // Jetpack Compose UI
-                Surface(color = Color.Black) {
-                    Greeting("${USER_DATA.name}")
-                }
-            }
-        }
-    }
+  useEffect(() => {
+    // Subscribe to DB changes
+    const sub = supabase
+      .channel(\`order-\${orderId}\`)
+      .on('postgres_changes', 
+        { event: 'UPDATE', table: 'orders' }, 
+        (payload) => setLocation(payload.new.driver_loc)
+      )
+      .subscribe();
+
+    return () => sub.unsubscribe();
+  }, [orderId]);
+
+  return <MapView coordinate={location} />;
 }`
   }
 ];
